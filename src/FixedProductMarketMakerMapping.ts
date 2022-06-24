@@ -98,6 +98,9 @@ export function handleFundingAdded(event: FPMMFundingAdded): void {
   }
 
   fpmm.liquidityAddQuantity = increment(fpmm.liquidityAddQuantity);
+  fpmm.longTradeVolume = event.params.longTradeVolume;
+  fpmm.shortTradeVolume = event.params.shortTradeVolume;
+  fpmm.totalFpmmHoldingValue = event.params.totalFpmmHoldingValue;
   fpmm.save();
   markAccountAsSeen(event.params.funder.toHexString(), event.block.timestamp);
   recordFundingAddition(event);
@@ -379,6 +382,11 @@ export function handleCurrentPrice(event: LongShortCurrentPrice): void {
   player.questionId = event.params.questionId;
   player.save();
 
+  fpmm.longTradeVolume = event.params.longTradeVolume;
+  fpmm.shortTradeVolume = event.params.shortTradeVolume;
+  fpmm.totalFpmmHoldingValue = event.params.totalFpmmHoldingValue;
+  fpmm.save();
+
   let tradePrice = new TradePrice(event.transaction.hash.toHexString());
   tradePrice.longTokenPrice = event.params.currentLongPrice;
   tradePrice.shortTokenPrice = event.params.currentShortPrice;
@@ -414,6 +422,21 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {
 export function handlePoolBalancesTransfered(
   event: PoolBalancesTransfered
 ): void {
+  let fpmmAddress = event.address.toHexString();
+  let fpmm = FixedProductMarketMaker.load(fpmmAddress);
+  if (fpmm == null) {
+    log.error(
+      "cannot update pool balance transfered: FixedProductMarketMaker instance for {} not found",
+      [fpmmAddress]
+    );
+    return;
+  }
+
+  fpmm.longTradeVolume = event.params.longTradeVolume;
+  fpmm.shortTradeVolume = event.params.shortTradeVolume;
+  fpmm.totalFpmmHoldingValue = event.params.totalFpmmHoldingValue;
+  fpmm.save();
+
   const fpmmPoolBalanceTransferEntity = new FpmmPoolBalanceTransfers(
     event.transaction.hash.toHexString()
   );
