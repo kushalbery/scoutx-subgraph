@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: ConditionalTokens
-    network: mainnet
+    network: matic
     source:
-      address: "0x47AFf4EbA9820a24E5A383B1bE3f226bEFAe148A" #update
+      address: "0x8d84E72572F85A82778309098f30d81792c689d7" #update
       abi: ConditionalTokens
-      # startBlock: 24552042 #update
+      startBlock: 29934627 #update
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -40,11 +40,11 @@ dataSources:
       file: ./src/ConditionalTokensMapping.ts
   - kind: ethereum/contract
     name: FixedProductMarketMakerFactory
-    network: mainnet
+    network: matic
     source:
-      address: "0x83752ecAfeBf4707258dedFFbD9c7443148169db" #update
+      address: "0xfc23011605001355691cE4E919F163B3C7d0905C" #update
       abi: FixedProductMarketMakerFactory
-      # startBlock: 24552042 #update
+      startBlock: 29934627 #update
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -63,7 +63,7 @@ dataSources:
 templates:
   - name: FixedProductMarketMaker
     kind: ethereum/contract
-    network: mainnet
+    network: matic
     source:
       abi: FixedProductMarketMaker
     mapping:
@@ -108,7 +108,7 @@ templates:
       file: ./src/FixedProductMarketMakerMapping.ts
   - name: ERC20Detailed
     kind: ethereum/contract
-    network: mainnet
+    network: matic
     source:
       abi: ERC20Detailed
     mapping:
